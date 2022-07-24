@@ -39,3 +39,51 @@
 2022-07-24 09:01:32,502 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
 2022-07-24 09:01:32,503 [INFO] DEVICE id 2 successful removed to exit
 2022-07-24 09:01:34,702 [ERROR] DEVICE id 2 not registered, cannot exit
+2022-07-24 09:05:58,261 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 09:05:58,274 [INFO] Connected to broker
+2022-07-24 09:16:24,066 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 09:16:24,067 [INFO] Connected to broker
+2022-07-24 09:17:24,300 [ERROR] DEVICE id 2 not registered, cannot exit
+2022-07-24 09:17:25,536 [ERROR] DEVICE id 2 not registered, cannot exit
+2022-07-24 09:17:45,599 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 09:17:45,601 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 09:17:45,674 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:17:45,674 [INFO] DEVICE id 2 successful registered
+2022-07-24 09:18:28,028 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 09:18:28,029 [INFO] Connected to broker
+2022-07-24 09:18:33,707 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 09:18:33,708 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 09:18:33,784 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:18:33,784 [INFO] DEVICE id 2 successful registered
+2022-07-24 09:19:23,748 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 09:19:23,749 [INFO] Connected to broker
+2022-07-24 09:19:41,939 [ERROR] DEVICE id 2 not registered, cannot exit
+2022-07-24 09:19:51,130 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 09:19:51,131 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 09:19:51,210 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:19:51,210 [INFO] DEVICE id 2 successful registered
+2022-07-24 09:20:02,124 [INFO] POWERING from device_id: 2 to 1
+2022-07-24 09:20:02,125 [INFO] Sending To Arduino b'\xff\x0b\x02\x02\x01H\x00'
+2022-07-24 09:20:02,199 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:20:14,464 [INFO] POWERING from device_id: 2 to 0
+2022-07-24 09:20:14,465 [INFO] Sending To Arduino b'\xff\x0b\x02\x02\x00O\x00'
+2022-07-24 09:20:14,544 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
+2022-07-24 09:20:27,310 [INFO] REGISTRATION from device_id: 2 action 0
+2022-07-24 09:20:27,310 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x00\x01\x00'
+2022-07-24 09:20:27,387 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
+2022-07-24 09:20:27,387 [INFO] DEVICE id 2 successful removed to exit
+2022-07-24 09:20:36,796 [INFO] REGISTRATION from device_id: 3 action 1
+2022-07-24 09:20:36,796 [INFO] Sending To Arduino b'\xff\x0e\x02\x03\x01\x13\x00'
+2022-07-24 09:20:36,869 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x03\x01?\x00'
+2022-07-24 09:20:36,870 [INFO] DEVICE id 3 successful registered
+2022-07-24 09:20:43,678 [ERROR] DEVICE id 3 has been registered, cannot be registered
+2022-07-24 09:20:49,139 [INFO] POWERING from device_id: 3 to 1
+2022-07-24 09:20:49,139 [INFO] Sending To Arduino b'\xff\x0b\x02\x03\x01]\x00'
+2022-07-24 09:20:49,215 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x03\x01?\x00'
+2022-07-24 09:20:57,974 [INFO] POWERING from device_id: 3 to 0
+2022-07-24 09:20:57,975 [INFO] Sending To Arduino b'\xff\x0b\x02\x03\x00Z\x00'
+2022-07-24 09:20:58,049 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x03\x008\x00'
+2022-07-24 09:21:14,239 [INFO] REGISTRATION from device_id: 3 action 0
+2022-07-24 09:21:14,239 [INFO] Sending To Arduino b'\xff\x0e\x02\x03\x00\x14\x00'
+2022-07-24 09:21:14,313 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x03\x008\x00'
+2022-07-24 09:21:14,313 [INFO] DEVICE id 3 successful removed to exit
