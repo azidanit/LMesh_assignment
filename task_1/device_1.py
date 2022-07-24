@@ -153,13 +153,13 @@ class MQTTHandler:
                     if 'device_id' in json_data:
                         self.serial_handler.setPower(json_data['device_id'], 0x01)
                     else:
-                        print("NO DEVICE ID")
+                        logging.error("NO DEVICE ID, Cannot Powering Action")
 
                 elif topic[1] == 'off':
                     if 'device_id' in json_data:
                         self.serial_handler.setPower(json_data['device_id'], 0x00)
                     else:
-                        print("NO DEVICE ID")
+                        logging.error("NO DEVICE ID, Cannot Powering Action")
 
 
     def processRegistration(self, topic, json_data):
