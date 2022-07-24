@@ -15,12 +15,12 @@ device_2 and device_3 act like a client, these two device publish a message thro
 The Arduino flashed with this [source_code](task_1/lmesh_task_1.ino) to check the message and send back the message with command_id = 0x0c. The message template that used on serial communication between arduino and device_1:
 | name | value | size|
 | ------ | ------ |-------|
-| Start byte| ```0xff``` |1 bytes
-|Command_id| ( ```0x0E``` = registration, ```0x0B``` = controller, ```0x0C``` = reply from arduino ) | 1 bytes
-|Length | example = ```0x02``` (lenght of following payload)|1 bytes
-|Payload | example = ```0x02, 0x01```(device_id, value) | lenght bytes
-|CRC8 | example = ```0xf4``` (checksum) | 1 bytes
-|End byte | ```0x00``` | 1 byts
+| Start byte| ```0xff``` |1 bytes |
+|Command_id| ( ```0x0E``` = registration, ```0x0B``` = controller, ```0x0C``` = reply from arduino ) | 1 bytes |
+|Length | example = ```0x02``` (lenght of following payload)|1 bytes |
+|Payload | example = ```0x02, 0x01```(device_id, value) | lenght bytes |
+|CRC8 | example = ```0xf4``` (checksum) | 1 bytes |
+|End byte | ```0x00``` | 1 bytes |
 
 
 Video Demonstration :
