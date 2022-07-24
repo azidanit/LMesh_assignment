@@ -14,3 +14,28 @@
 2022-07-24 08:44:46,741 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x00\x01\x00'
 2022-07-24 08:44:46,815 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
 2022-07-24 08:44:46,815 [INFO] DEVICE id 2 successful removed to exit
+2022-07-24 08:55:32,406 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 08:55:32,407 [INFO] Connected to broker
+2022-07-24 08:55:38,970 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 08:55:38,970 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 08:55:39,049 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 08:55:39,049 [INFO] DEVICE id 2 successful registered
+2022-07-24 08:59:16,749 [INFO] CONNECTED to 192.168.100.58 port 1884
+2022-07-24 08:59:16,750 [INFO] Connected to broker
+2022-07-24 09:00:02,492 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 09:00:02,492 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 09:00:02,569 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:00:02,569 [INFO] DEVICE id 2 successful registered
+2022-07-24 09:00:15,309 [INFO] REGISTRATION from device_id: 2 action 0
+2022-07-24 09:00:15,310 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x00\x01\x00'
+2022-07-24 09:00:15,383 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
+2022-07-24 09:00:15,383 [INFO] DEVICE id 2 successful removed to exit
+2022-07-24 09:01:29,273 [INFO] REGISTRATION from device_id: 2 action 1
+2022-07-24 09:01:29,273 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x01\x06\x00'
+2022-07-24 09:01:29,352 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x01*\x00'
+2022-07-24 09:01:29,352 [INFO] DEVICE id 2 successful registered
+2022-07-24 09:01:32,423 [INFO] REGISTRATION from device_id: 2 action 0
+2022-07-24 09:01:32,423 [INFO] Sending To Arduino b'\xff\x0e\x02\x02\x00\x01\x00'
+2022-07-24 09:01:32,502 [INFO] Arduino send back the msg, Verified b'\xff\x0c\x02\x02\x00-\x00'
+2022-07-24 09:01:32,503 [INFO] DEVICE id 2 successful removed to exit
+2022-07-24 09:01:34,702 [ERROR] DEVICE id 2 not registered, cannot exit

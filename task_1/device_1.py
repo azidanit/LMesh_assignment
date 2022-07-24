@@ -190,11 +190,9 @@ class MQTTHandler:
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             logging.info("Connected to broker")
-
             self.subscribeToTopic()
         else:
-
-            print("Connection failed")
+            logging.error("Connection failed")
 
 
 if __name__ == '__main__':
