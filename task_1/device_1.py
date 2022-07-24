@@ -4,6 +4,8 @@ import json
 import libscrc
 import struct
 import serial
+import logging
+import sys
 
 from threading import Thread
 
@@ -11,49 +13,72 @@ from threading import Thread
 class SerialHandler:
     def __init__(self):
         self.device_name = "/dev/tty.usbmodem144302"
-        self.device_baud = 9600
+        self.device_baud = 57600
         self.read_thread = None
 
         self.connectToDevice()
         self.startReadThread()
 
     def connectToDevice(self):
-        self.serial = serial.Serial(self.device_name, self.device_baud)
+        self.serial = serial.Serial(self.device_name, self.device_baud, timeout=1)
 
 
     def setPower(self, device_id_, condition):
-        print("POWERING ", device_id_, condition)
+        logging.info("POWERING from device_id: {} to {}".format(device_id_, condition))
         self.sendToDevice(bytes([0xff, 0x0B, 0x02, device_id_, condition]))
         pass
 
     def setRegistration(self, device_id_, condition):
-        print("REGISTRATION ", device_id_, condition)
+        logging.info("REGISTRATION from device_id: {} action {}".format(device_id_, condition))
+        self.sendToDevice(bytes([0xff, 0x0E, 0x02, device_id_, condition]))
+        pass
 
+    def sendToDeviceRaw(self, msg_bytes):
+        # print("SENDING TO DEVICE")
+        self.serial.write(msg_bytes)
         pass
 
     def sendToDevice(self, msg_bytes):
         crc8_ = libscrc.crc8(msg_bytes)
         msg_crc8 = msg_bytes + bytes([crc8_]) + bytes([0x00])
         self.serial.write(msg_crc8)
-        pass
+        logging.info("Sending To Arduino {}".format(msg_crc8))
+        ret_read = self.readFromDeviceOnceAndVerify()
+        while not ret_read[0]: #sending again when it fails to read msg
+            self.serial.write(msg_crc8)
+            time.sleep(0.25)
+
+        logging.info("Arduino send back the msg, Verified {}".format(ret_read[1]))
+
+
+    def readFromDeviceOnceAndVerify(self):
+        line = self.serial.read_until(size=7)
+        if len(line) >= 6:
+            if libscrc.crc8(line[:5]) == line[5]:
+                # print("CORRECT CRC")
+                return [True, line]
+        else:
+            # print("TIMEOUT NOT ENOUGH MSG")
+            return [False,line]
+        print(line)
 
     def startReadThread(self):
         if self.read_thread == None:
-            self.read_thread = Thread(target=self.readFromDevice)
-            self.read_thread.start()
-            self.read_thread.join()
-
+            self.read_thread = Thread(target=self.readFromDeviceThread)
+            # self.read_thread.start()
         else:
             self.read_thread.join()
 
-    def readFromDevice(self):
+    def readFromDeviceThread(self):
         while True:
-            self.setPower(0x01,0x01)
-            time.sleep(0.1)
-            print("done sending")
-            line = self.serial.read()
+            line = self.serial.read_until(size=7)
+            if libscrc.crc8(line[:5]) == line[5]:
+                pass
+                # print("CORRECT CRC")
             print(line)
         pass
+
+
 
 class MQTTHandler:
     def __init__(self):
@@ -82,10 +107,10 @@ class MQTTHandler:
             try:
                 is_mqtt_connected = True
                 self.client.connect(self.broker_address, port=self.broker_port)  # connect to broker
-                print("CONNECTED")
+                logging.info("CONNECTED to {} port {}".format(self.broker_address, self.broker_port))
             except:
                 is_mqtt_connected = False
-                print("cannot connect")
+                logging.warning("cannot connect")
                 time.sleep(1)
 
     def subscribeToTopic(self):
@@ -105,26 +130,28 @@ class MQTTHandler:
             if json_obj != None:
                 if message.topic.split('/')[0] == 'registration':
                     self.processRegistration(message.topic.split('/'), json_obj)
+                elif message.topic.split('/')[0] == 'power':
+                    self.processPowerCommand(message.topic.split('/'), json_obj)
         else:
-            print("Message from topic", message.topic ,"has no payload")
+            logging.warning("Message from topic {} has no payload".format(message.topic))
 
 
     def parseJSON(self, string_):
         try: #try to parse string as json
             return json.loads(string_)
         except:
-            print("cannot parse json from string")
+            logging.error("cannot parse json from string")
             return None
 
     def processPowerCommand(self, topic, json_data):
         # print(topic, json_data)
         if len(topic) > 1:
             if self.registered_device.count(json_data['device_id']) == 0:
-                print("Device Not Registered, Command Rejected")
+                logging.error("Device Not Registered, Command Rejected")
             else:
                 if topic[1] == 'on':
                     if 'device_id' in json_data:
-                        self.serial_handler.setPowerOn(json_data['device_id'], 0x01)
+                        self.serial_handler.setPower(json_data['device_id'], 0x01)
                     else:
                         print("NO DEVICE ID")
 
@@ -142,25 +169,27 @@ class MQTTHandler:
                 if 'device_id' in json_data:
                     if self.registered_device.count(json_data['device_id']) == 0:
                         self.registered_device.append(json_data['device_id'])
-                        print("DEVICE id ", json_data['device_id'], " successful registered")
+                        self.serial_handler.setRegistration(json_data['device_id'], 0x01)
+                        logging.info("DEVICE id {} successful registered".format(json_data['device_id']))
                     else:
-                        print("DEVICE id ", json_data['device_id'], " has been registered")
+                        logging.error("DEVICE id {} has been registered, cannot be registered".format(json_data['device_id']))
                 else:
-                    print("NO DEVICE ID")
+                    logging.warning("NO DEVICE ID")
             elif topic[1] == 'exit':
                 if 'device_id' in json_data:
                     if self.registered_device.count(json_data['device_id']) > 0:
                         self.registered_device.remove(json_data['device_id'])
-                        print("DEVICE id ", json_data['device_id'], " successful removed")
+                        self.serial_handler.setRegistration(json_data['device_id'], 0x00)
+                        logging.info("DEVICE id {} successful removed to exit".format(json_data['device_id']))
                     else:
-                        print("DEVICE id ", json_data['device_id'], " not registered, cannot exit")
+                        logging.error("DEVICE id {} not registered, cannot exit".format(json_data['device_id']))
                 else:
-                    print("NO DEVICE ID")
+                    logging.warning("NO DEVICE ID")
 
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
-            print("Connected to broker")
+            logging.info("Connected to broker")
 
             self.subscribeToTopic()
         else:
@@ -169,11 +198,19 @@ class MQTTHandler:
 
 
 if __name__ == '__main__':
-    # mqtt_hanlder_dev_1 = MQTTHandler()
-    # mqtt_hanlder_dev_1.start()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("general.log"),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
 
-    ser_hanlder = SerialHandler()
-    time.sleep(20)
+    mqtt_hanlder_dev_1 = MQTTHandler()
+    mqtt_hanlder_dev_1.start()
+
+    # time.sleep(20)
 
 
 
